@@ -35,7 +35,10 @@ nav ul {
   margin: 1em .5em;
   padding: 1em .5em;
   list-style-type: none;
+}
+nav ul a {
   color: #fafbfb;
+  text-decoration: none;
 }
 
 /* Index Styles */
@@ -104,7 +107,7 @@ img {
 }
 
 /* Larger Screens */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 875px) {
   body {
   background-image: url("/images/site/checkerboard.jpg");
 }
