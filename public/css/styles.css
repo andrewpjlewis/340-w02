@@ -173,12 +173,12 @@ img {
   font-size: 1.75rem;
 }
 .vehicle-info p {
-  padding: 5px 15px;
+  padding: 8px 15px;
 }
-.vehicle-info :nth-child(3) {
+.vehicle-info :nth-child(2) {
   background-color: rgb(228, 228, 228);
 }
-.vehicle-info :nth-child(5) {
+.vehicle-info :nth-child(4) {
   background-color: rgb(228, 228, 228);
 }
 

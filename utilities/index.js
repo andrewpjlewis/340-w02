@@ -62,7 +62,7 @@ Util.buildClassificationGrid = async function(data){
  * **************************************** */
 Util.generateVehicleDetailHTML = function(vehicle) {
   const formatCurrencyUSD = amount => 
-    amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    amount.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0});
 
   const formatNumberWithCommas = number => 
     number.toLocaleString('en-US');
@@ -73,13 +73,11 @@ Util.generateVehicleDetailHTML = function(vehicle) {
         <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}" />
       </div>
       <div class="vehicle-info">
-        <h1>${vehicle.inv_make} ${vehicle.inv_model}</h1>
-        <p><strong>Year:</strong> ${vehicle.inv_year}</p>
-        <p><strong>Price:</strong> ${formatCurrencyUSD(vehicle.inv_price)}</p>
-        <p><strong>Mileage:</strong> ${formatNumberWithCommas(vehicle.inv_miles)} miles</p>
+        <h1>${vehicle.inv_make} ${vehicle.inv_model} Details</h1>
+        <p><strong>Price:</strong> ${formatCurrencyUSD(Number(vehicle.inv_price))}</p>
         <p><strong>Description:</strong> ${vehicle.inv_description}</p>
         <p><strong>Color:</strong> ${vehicle.inv_color}</p>
-        <p><strong>Transmission:</strong> ${vehicle.inv_transmission}</p>
+        <p><strong>Mileage:</strong> ${formatNumberWithCommas(vehicle.inv_miles)} miles</p>
       </div>
     </div>
   `;
