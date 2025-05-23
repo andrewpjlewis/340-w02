@@ -202,12 +202,19 @@ img {
   }
   #inv-display {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(175px, 175px));
+    grid-template-columns: repeat(auto-fit, 175px);
     gap: 1rem;
     justify-content: center;
-    width: 80%;
-    padding: 0;
+    width: 100%;
+    max-width: calc(200px * 3 + 1rem * 2);
+    margin-left: auto;
+    margin-right: auto;
+    padding: auto;
     list-style: none;
+  }
+
+  #inv-display li {
+    width: 175px;
   }
   .vehicle-detail-container {
     display: grid;
