@@ -52,7 +52,7 @@ nav ul a {
 }
 img {
   display: block;
-  max-width: 90%;
+  max-width: 100%;
 }
 #overlay {
   position: absolute;
@@ -106,22 +106,111 @@ img {
   margin: .5em 1em;
 }
 
+/* Classification Styles */
+#inv-display {
+  list-style-type: none;
+  width: 60%;
+  padding-left: 0;
+  margin: 0 auto;
+}
+
+#inv-display li {
+  border: 1px solid black;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  padding: 0;
+  background-color: white;
+  width: 100%;
+}
+
+#inv-display li a {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-radius: 8px;
+}
+
+#inv-display li img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+#inv-display li .namePrice {
+  padding: 12px 16px;
+  text-align: center;
+}
+
+#inv-display li hr {
+  border: none;
+  height: 4px;
+  background-color: black;
+  margin: 12px 0;
+}
+
+#inv-display li .namePrice h2 {
+  margin: 8px 0 4px;
+  font-size: 1.5rem;
+}
+
+#inv-display li .namePrice span {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+/* Detail Styles */
+.vehicle-detail-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.vehicle-info h1 {
+  font-size: 1.75rem;
+}
+.vehicle-info p {
+  padding: 5px 15px;
+}
+.vehicle-info :nth-child(3) {
+  background-color: rgb(228, 228, 228);
+}
+.vehicle-info :nth-child(5) {
+  background-color: rgb(228, 228, 228);
+}
+
 /* Larger Screens */
 @media screen and (min-width: 875px) {
   body {
-  background-image: url("/images/site/checkerboard.jpg");
-}
-#wrapper {
-  background-color: white;
-  border: 5px solid #01aed1;
-  border-radius: 8px;
-  margin: 1em 15em;
-  padding: 1em;
-}
+    background-image: url("/images/site/checkerboard.jpg");
+  }
+  #wrapper {
+    background-color: white;
+    border: 5px solid #01aed1;
+    border-radius: 8px;
+    margin: 1em 7em;
+    padding: 1em;
+  }
 
-.content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5em;
-}
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5em;
+  }
+  #inv-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 175px));
+    gap: 1rem;
+    justify-content: center;
+    width: 80%;
+    padding: 0;
+    list-style: none;
+  }
+  .vehicle-detail-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }

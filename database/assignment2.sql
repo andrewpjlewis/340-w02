@@ -34,5 +34,5 @@ WHERE classification.classification_name = 'Sport';
 
 -- SET and REPLACE to add /vehicles into middle of file path
 UPDATE inventory
-SET inv_image = REPLACE(inv_image, '/images', '/image/vehicles'), 
-	inv_thumbnail = REPLACE(inv_thumbnail, '/images', '/image/vehicles') 
+SET inv_image = REPLACE(inv_image, '/images', '/images/vehicles'), 
+	inv_thumbnail = REPLACE(inv_thumbnail, '/images', '/images/vehicles') 
