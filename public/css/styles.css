@@ -182,6 +182,12 @@ img {
   background-color: rgb(228, 228, 228);
 }
 
+.notice li {
+  color: red;
+  font-style: italic;
+  font-weight: bold;
+}
+
 /* Larger Screens */
 @media screen and (min-width: 875px) {
   body {
