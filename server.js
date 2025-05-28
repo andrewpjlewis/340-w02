@@ -1,7 +1,3 @@
-/* ******************************************
- * This server.js file is the primary file of the 
- * application. It is used to control the project.
- *******************************************/
 /* ***********************
  * Require Statements
  *************************/
@@ -15,30 +11,29 @@ const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require('./utilities')
 const session = require("express-session")
 const pool = require('./database/')
+const accountRoute = require('./routes/accountRoute')
+const flash = require('connect-flash')
 
 /* ***********************
- * View Engine and Templates
- *************************/
+* View Engine and Templates
+*************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout")
 
 /* ***********************
- * Middleware
- * ************************/
- app.use(session({
-  store: new (require('connect-pg-simple')(session))({
-    createTableIfMissing: true,
-    pool,
-  }),
+* Middleware
+* ************************/
+app.use("/account", accountRoute)
+app.use(session({
   secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
-  name: 'sessionId',
-}))
+  resave: false,
+  saveUninitialized: true
+}));
 
 // Express Messages Middleware
 app.use(require('connect-flash')())
+app.use(flash());
 app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
