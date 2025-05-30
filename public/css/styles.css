@@ -238,6 +238,23 @@ img {
   padding: 0;
 }
 
+/* Styles for error messages */
+ul.notice {
+  background-color: #ffe6e6; /* light red background */
+  border: 1px solid #ff4d4d; /* red border */
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  list-style-type: none; /* remove bullets */
+  color: #b30000; /* dark red text */
+  font-weight: bold;
+  max-width: 400px;
+}
+
+ul.notice li {
+  margin: 5px 0;
+}
+
 /* Larger Screens */
 @media screen and (min-width: 875px) {
   body {

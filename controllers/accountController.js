@@ -31,39 +31,6 @@ async function registerAccount(req, res) {
     account_password,
   } = req.body
 
-  const errors = []
-
-  // Basic required fields check
-  if (!account_firstname) errors.push("First name is required.")
-  if (!account_lastname) errors.push("Last name is required.")
-  if (!account_email) errors.push("Email is required.")
-  if (!account_password) errors.push("Password is required.")
-
-  // Email format check (basic regex)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (account_email && !emailRegex.test(account_email)) {
-    errors.push("Invalid email format.")
-  }
-
-  // Password strength check
-  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{12,}$/
-  if (account_password && !passwordRegex.test(account_password)) {
-    errors.push("Password must be at least 12 characters, include an uppercase letter, a number, and a special character.")
-  }
-
-  // If there are validation errors, re-render the form
-  if (errors.length > 0) {
-    req.flash("notice", errors)
-    return res.status(400).render("account/register", {
-      title: "Registration",
-      nav,
-      errors,
-      account_firstname,
-      account_lastname,
-      account_email
-    })
-  }
-
   const regResult = await accountModel.registerAccount(
     account_firstname,
     account_lastname,
