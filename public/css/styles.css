@@ -200,13 +200,14 @@ img {
   width: 100%;
 }
 
-.login-container form {
+.login-container fieldset {
   display: flex;
   flex-direction: column;
   padding: 2rem;
+  margin: 0 2rem;
 }
 
-.login-container form label {
+.login-container fieldset label {
   margin-bottom: 0.5rem;
   color: white;
 }
@@ -218,7 +219,7 @@ img {
   border: none;
 }
 
-.login-container form button {
+.login-container fieldset button {
   padding: 0.75rem;
   border-radius: 8px;
   border: none;

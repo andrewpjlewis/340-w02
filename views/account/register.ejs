@@ -4,20 +4,24 @@
 <%- messages() %>
 
   <div class="login-container">
-    <form id="loginForm" action="/account/register" method="post">
-      <label for="account_firstname">First Name:</label>
-      <input type="text" id="account_firstname" name="account_firstname" required>
+    <p>ALL FIELDS ARE REQUIRED</p>
+    <form id="registerForm" action="/account/register" method="post">
+      <fieldset>
+        <label for="account_firstname">First Name:</label>
+        <input type="text" id="account_firstname" name="account_firstname" required>
 
-      <label for="account_lastname">Last Name:</label>
-      <input type="text" id="account_lastname" name="account_lastname" required>
-      
-      <label for="account_email">Email:</label>
-      <input type="email" id="account_email" name="account_email" required>
+        <label for="account_lastname">Last Name:</label>
+        <input type="text" id="account_lastname" name="account_lastname" required>
+        
+        <label for="account_email">Email:</label>
+        <input type="email" id="account_email" name="account_email" required>
 
-      <label for="account_password">Password:</label>
-      <input type="password" id="account_password" name="account_password" required>
-
-      <button type="submit">Register</button>
+        <label for="account_password">Password:</label>
+        <input type="password" id="account_password" name="account_password" required
+        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+        <p>Passwords must be a minimum of 12 characters and include at least 1 capital letter, 1 number, and 1 special character</p>
+        <button type="submit">Register</button>
+      </fieldset>
     </form>
 
     <p>Already have an account? <a href="/account/login">Login</a></p>
