@@ -13,16 +13,16 @@ async function buildLogin(req, res, next) {
   })
 }
 
-async function buildAccountHome(req, res, next) {
-  let nav = await utilities.getNav()
-  let messages = req.flash()
+// async function buildAccountHome(req, res, next) {
+//   let nav = await utilities.getNav()
+//   let messages = req.flash()
 
-  res.render("account/account", {
-    title: "My Account",
-    nav,
-    messages
-  })
-}
+//   res.render("account/account", {
+//     title: "My Account",
+//     nav,
+//     messages
+//   })
+// }
 // async function registerAccount(account_firstname, account_lastname, account_email, account_password){
 //   try {
 //     const regResult = await accountModel.accountRegister(
@@ -55,5 +55,5 @@ async function buildAccountHome(req, res, next) {
 
 module.exports = {
   buildLogin,
-  buildAccountHome,
+  // buildAccountHome,
 }

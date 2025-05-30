@@ -188,6 +188,54 @@ img {
   font-weight: bold;
 }
 
+/* Login Styles */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #32475c;
+  margin: 1rem auto;
+  border-radius: 8px;
+  outline: 4px solid grey;
+  max-width: 500px;
+  width: 100%;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.login-container form label {
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.login-container input {
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: none;
+}
+
+.login-container form button {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.login-container p,
+.login-container a {
+  color: white;
+  padding: 0 2rem;
+  text-align: center;
+}
+.login-container a {
+  text-decoration: underline;
+}
+
 /* Larger Screens */
 @media screen and (min-width: 875px) {
   body {
@@ -222,8 +270,18 @@ img {
   #inv-display li {
     width: 175px;
   }
+  
   .vehicle-detail-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .login-container {
+    margin: 2rem auto;
+  }
+
+  .login-container form button {
+    align-self: center;
+    width: 50%;
   }
 }

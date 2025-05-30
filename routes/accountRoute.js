@@ -5,7 +5,7 @@ const utilities = require("../utilities")
 const accountController = require("../controllers/accountController")
 
 // Route to deliver the "My Account" page
-router.get("/login", utilities.handleErrors(accountController.buildAccountHome))
+router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
 // Export the router
 module.exports = router
