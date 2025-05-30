@@ -57,4 +57,9 @@ async function registerAccount(req, res) {
   }
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount }
+async function accountLogin(req, res) {
+  const { account_email, account_password } = req.body
+  res.send(`Logged in as ${account_email}`)
+}
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin }
