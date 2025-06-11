@@ -80,7 +80,7 @@ invCont.addClassification = async (req, res) => {
   const nav = await utilities.getNav();
 
   try {
-    const result = await invModel.addClassification(classification_name);
+    const result = await invModel.addNewClassification(classification_name);
     if (result) {
       req.flash("success", "Classification added successfully.");
       res.redirect("/inv");
