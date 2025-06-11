@@ -1,7 +1,27 @@
 const invModel = require("../models/inventory-model");
-const utilities = require("../utilities/");
+const utilities = require("../utilities");
+const { validationResult } = require("express-validator");
 
 const invCont = {};
+
+/* ***************************
+ *  Show Management Page
+ * ************************** */
+invCont.showManagement = async (req, res, next) => {
+  try {
+    const nav = await utilities.getNav();
+    const inventoryList = await invModel.getInventory();
+
+    res.render("inventory/management", {
+      title: "Inventory Management",
+      nav,
+      inventoryList,
+      errors: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 /* ***************************
  *  Build inventory by classification view
@@ -42,6 +62,129 @@ invCont.buildVehicleDetail = async function (req, res, next) {
     });
   } catch (error) {
     next(error);
+  }
+};
+
+// Existing classification handlers
+invCont.buildAddClassificationForm = async (req, res) => {
+  const nav = await utilities.getNav();
+  res.render("./inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    errors: null,
+  });
+};
+
+invCont.addClassification = async (req, res) => {
+  const { classification_name } = req.body;
+  const nav = await utilities.getNav();
+
+  try {
+    const result = await invModel.addClassification(classification_name);
+    if (result) {
+      req.flash("success", "Classification added successfully.");
+      res.redirect("/inv");
+    } else {
+      req.flash("error", "Classification not added. Try again.");
+      res.render("./inventory/add-classification", {
+        title: "Add Classification",
+        nav,
+        classification_name,
+        errors: null,
+      });
+    }
+  } catch (error) {
+    req.flash("error", "An error occurred while adding the classification.");
+    res.render("./inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      classification_name,
+      errors: null,
+    });
+  }
+};
+
+// New: Show Add Inventory Form
+invCont.buildAddInventoryForm = async (req, res) => {
+  try {
+    const nav = await utilities.getNav();
+    const classificationList = await utilities.buildClassificationList();
+    res.render("./inventory/add-inventory", {
+      title: "Add New Vehicle",
+      nav,
+      classificationList,
+      errors: null,
+    });
+  } catch (error) {
+    console.error("Error in buildAddInventoryForm:", error);
+    req.flash("error", "Error loading the add inventory form.");
+    res.redirect("/inv");
+  }
+};
+
+// New: Handle Add Inventory POST
+invCont.addInventory = async (req, res) => {
+  const nav = await utilities.getNav();
+  const errors = validationResult(req);
+  const classificationList = await utilities.buildClassificationList(req.body.classification_id);
+
+  if (!errors.isEmpty()) {
+    return res.render("./inventory/add-inventory", {
+      title: "Add New Vehicle",
+      nav,
+      classificationList,
+      errors,
+      ...req.body,
+    });
+  }
+
+  try {
+    const {
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+    } = req.body;
+
+    const result = await invModel.addInventoryItem(
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color
+    );
+
+    if (result) {
+      req.flash("success", "New vehicle added successfully.");
+      return res.redirect("/inv");
+    } else {
+      req.flash("error", "Failed to add vehicle. Please try again.");
+      return res.render("./inventory/add-inventory", {
+        title: "Add New Vehicle",
+        nav,
+        classificationList,
+        ...req.body,
+      });
+    }
+  } catch (error) {
+    req.flash("error", "An error occurred while adding the vehicle.");
+    return res.render("./inventory/add-inventory", {
+      title: "Add New Vehicle",
+      nav,
+      classificationList,
+      ...req.body,
+    });
   }
 };
 

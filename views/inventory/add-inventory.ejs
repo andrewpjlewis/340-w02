@@ -1,0 +1,114 @@
+<h1><%= title %></h1>
+
+<!-- Flash Messages -->
+<%- messages() %>
+
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<div class="form-container">
+  <form action="/inv/add-inventory" method="POST">
+    <fieldset>
+      <label for="classification_id">Classification</label>
+      <%- classificationList %>
+
+      <label for="inv_make">Make</label>
+      <input 
+        type="text" 
+        id="inv_make" 
+        name="inv_make" 
+        required 
+        pattern="[A-Za-z\s]+" 
+        title="Alphabetic characters and spaces only."
+        value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>"
+      />
+
+      <label for="inv_model">Model</label>
+      <input 
+        type="text" 
+        id="inv_model" 
+        name="inv_model" 
+        required 
+        pattern="[A-Za-z0-9\s]+" 
+        title="Alphanumeric characters and spaces only."
+        value="<%= typeof inv_model !== 'undefined' ? inv_model : '' %>"
+      />
+
+      <label for="inv_description">Description</label>
+      <textarea 
+        id="inv_description" 
+        name="inv_description" 
+        required
+      ><%= typeof inv_description !== 'undefined' ? inv_description : '' %></textarea>
+
+      <label for="inv_image">Image Path</label>
+      <input 
+        type="text" 
+        id="inv_image" 
+        name="inv_image" 
+        required 
+        value="<%= typeof inv_image !== 'undefined' ? inv_image : '/images/vehicles/no-image.png' %>"
+      />
+
+      <label for="inv_thumbnail">Thumbnail Path</label>
+      <input 
+        type="text" 
+        id="inv_thumbnail" 
+        name="inv_thumbnail" 
+        required 
+        value="<%= typeof inv_thumbnail !== 'undefined' ? inv_thumbnail : '/images/vehicles/no-image-tn.png' %>"
+      />
+
+      <label for="inv_price">Price ($)</label>
+      <input 
+        type="number" 
+        id="inv_price" 
+        placeholder="decimal or integer"
+        name="inv_price" 
+        step="0.01" 
+        required
+        value="<%= typeof inv_price !== 'undefined' ? inv_price : '' %>"
+      />
+
+      <label for="inv_year">Year</label>
+      <input 
+        type="number" 
+        id="inv_year"
+        placeholder="4-digit year" 
+        name="inv_year" 
+        required 
+        min="1900" 
+        max="2099"
+        value="<%= typeof inv_year !== 'undefined' ? inv_year : '' %>"
+      />
+
+      <label for="inv_miles">Miles</label>
+      <input 
+        type="number" 
+        id="inv_miles"
+        placeholder="digits only" 
+        name="inv_miles" 
+        required
+        value="<%= typeof inv_miles !== 'undefined' ? inv_miles : '' %>"
+      />
+
+      <label for="inv_color">Color</label>
+      <input 
+        type="text" 
+        id="inv_color" 
+        name="inv_color" 
+        required 
+        pattern="[A-Za-z\s]+" 
+        title="Alphabetic characters only."
+        value="<%= typeof inv_color !== 'undefined' ? inv_color : '' %>"
+      />
+
+      <button type="submit">Add Vehicle</button>
+    </fieldset>
+  </form>
+</div>

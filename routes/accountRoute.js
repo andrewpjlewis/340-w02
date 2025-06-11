@@ -20,7 +20,7 @@ router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin)  // Fixed handler name here
+  utilities.handleErrors(accountController.accountLogin)
 );
 
 module.exports = router;
