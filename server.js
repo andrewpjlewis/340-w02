@@ -9,7 +9,6 @@ const baseController = require("./controllers/baseController")
 const utilities = require('./utilities')
 const session = require("express-session")
 const pool = require('./database/')
-const accountRoute = require('./routes/accountRoute')
 const flash = require('connect-flash')
 const bodyParser = require('body-parser')
 
@@ -45,7 +44,6 @@ app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
-app.use("/account", accountRoute)
 
 /* ***********************
  * Routes

@@ -1,12 +1,37 @@
-// Needed Resources 
 const express = require("express");
 const router = new express.Router();
-const invController = require("../controllers/inventoryController");
+const invCont = require("../controllers/inventoryController");
+const invValidate = require("../utilities/inventory-validation");
+const utilities = require("../utilities/");
+const { body } = require('express-validator');
 
-// Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
+router.get("/", invCont.showManagement);
+router.get("/type/:classificationId", invCont.buildByClassificationId);
+router.get("/detail/:inv_id", invCont.buildVehicleDetail);
+router.get("/add-classification", utilities.handleErrors(invCont.buildAddClassificationForm));
+router.get('/add-inventory', invCont.buildAddInventoryForm);
 
-// Route to build vehicle detail view by inventory id
-router.get("/detail/:inv_id", invController.buildVehicleDetail);
+router.post(
+  "/add-classification",
+  invValidate.classificationRules(),
+  invValidate.checkClassificationData,
+  utilities.handleErrors(invCont.addClassification)
+);
+router.post(
+  '/add-inventory',
+  [
+    body('classification_id').notEmpty().withMessage('Classification is required'),
+    body('inv_make').trim().isAlpha('en-US', { ignore: ' ' }).withMessage('Make must be alphabetic'),
+    body('inv_model').trim().isAlphanumeric('en-US', { ignore: ' ' }).withMessage('Model must be alphanumeric'),
+    body('inv_year').isInt({ min: 1900, max: 2099 }).withMessage('Year must be a valid number'),
+    body('inv_description').trim().notEmpty().withMessage('Description is required'),
+    body('inv_image').trim().notEmpty().withMessage('Image path is required'),
+    body('inv_thumbnail').trim().notEmpty().withMessage('Thumbnail path is required'),
+    body('inv_price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
+    body('inv_miles').isInt({ min: 0 }).withMessage('Miles must be a positive number'),
+    body('inv_color').trim().isAlpha('en-US', { ignore: ' ' }).withMessage('Color is required and must be alphabetic'),
+  ],
+  invCont.addInventory
+);
 
 module.exports = router;
