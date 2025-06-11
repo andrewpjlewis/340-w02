@@ -189,7 +189,7 @@ img {
 }
 
 /* Login Styles */
-.login-container {
+.form-container {
   display: flex;
   flex-direction: column;
   background-color: #32475c;
@@ -200,26 +200,36 @@ img {
   width: 100%;
 }
 
-.login-container fieldset {
+.form-container fieldset {
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  margin: 0 2rem;
+  margin: 2rem 2rem;
 }
 
-.login-container fieldset label {
+.form-container fieldset label {
   margin-bottom: 0.5rem;
   color: white;
 }
 
-.login-container input {
+.form-container select, input {
   border-radius: 8px;
   padding: 0.5rem;
   margin-bottom: 1rem;
   border: none;
 }
 
-.login-container fieldset button {
+.form-container input:focus:invalid {
+  background-color: white;
+  box-shadow: inset 0 0 0 100px rgba(255, 0, 0, 0.25);
+}
+
+.form-container input:focus:valid {
+  background-color: white;
+  box-shadow: inset 0 0 0 100px rgba(0, 255, 0, 0.25);
+}
+
+.form-container fieldset button {
   padding: 0.75rem;
   border-radius: 8px;
   border: none;
@@ -227,13 +237,13 @@ img {
   cursor: pointer;
 }
 
-.login-container p,
-.login-container a {
+.form-container p,
+.form-container a {
   color: white;
-  padding: 0 2rem;
+  padding: 0;
   text-align: center;
 }
-.login-container a {
+.form-container a {
   text-decoration: underline;
   padding: 0;
 }
@@ -253,6 +263,10 @@ ul.notice {
 
 ul.notice li {
   margin: 5px 0;
+}
+
+.no-bullets {
+  list-style-type: none;
 }
 
 /* Larger Screens */
@@ -295,11 +309,11 @@ ul.notice li {
     grid-template-columns: 1fr 1fr;
   }
 
-  .login-container {
+  .form-container {
     margin: 2rem auto;
   }
 
-  .login-container form button {
+  .form-container form button {
     align-self: center;
     width: 50%;
   }
