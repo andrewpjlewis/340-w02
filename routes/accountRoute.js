@@ -5,6 +5,7 @@ const accountController = require("../controllers/accountController");
 const regValidate = require("../utilities/account-validation");
 
 // Route to deliver the "My Account" pages
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
 
