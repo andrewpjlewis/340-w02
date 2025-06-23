@@ -1,0 +1,45 @@
+<%- include('../partials/header') %>
+
+<h1>Delete <%= inv_make %> <%= inv_model %></h1>
+
+<!-- Flash Messages -->
+<%- messages() %>
+
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<div class="form-container">
+    <p>Confirm Deletion - The delete is permanent.</p>
+    <form action="/inv/delete" method="POST">
+      <fieldset>
+          <label for="invMake">Make</label>
+          <input type="text" readonly <% if(locals.inv_make) { %>
+          value="<%= locals.inv_make %>"<% } %>>
+        
+          <label for="invModel">Model</label>
+          <input type="text" readonly <% if(locals.inv_model) { %>
+          value="<%= locals.inv_model %>"<% } %>>
+
+          <label for="invPrice">Price</label>
+          <input type="text" readonly <% if(locals.inv_price) { %>
+          value="<%= locals.inv_price %>"<% } %>>
+
+          <label for="invYear">Year</label>
+          <input type="text" readonly <% if(locals.inv_year) { %>
+          value="<%= locals.inv_year %>"<% } %>>
+        
+          <input type="hidden" name="inv_id"
+          <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
+        
+          <input type="submit" value="Delete" class="button delete-button">
+      </fieldset>
+    </form>
+</div>
+
+
+<%- include('../partials/footer') %>
