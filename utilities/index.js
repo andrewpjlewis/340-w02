@@ -148,4 +148,17 @@ Util.checkJWTToken = (req, res, next) => {
   }
  }
 
+/* ****************************************
+ *  Restrict access to inventory
+ * ************************************ */
+ Util.checkEmployeeOrAdmin = (req, res, next) => {
+  const role = res.locals.accountData?.account_type;
+  if (role === "Employee" || role === "Admin") {
+    return next();
+  } else {
+    req.flash("notice", "You must be logged in with proper permissions.");
+    return res.redirect("/account/login");
+  }
+};
+
 module.exports = Util;

@@ -119,5 +119,77 @@ async function buildAccountManagement(req, res) {
   });
 }
 
+async function buildUpdateAccount(req, res) {
+  let nav = await utilities.getNav();
+  const account_id = parseInt(req.params.account_id);
+  const accountData = await accountModel.getAccountById(account_id);
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement };
+  res.render("account/update", {
+    title: "Update Account",
+    nav,
+    accountData,
+    errors: null,
+  });
+}
+
+async function updateAccountInfo(req, res) {
+  const { account_id, account_firstname, account_lastname, account_email } = req.body;
+  const result = await accountModel.updateAccountInfo(account_id, account_firstname, account_lastname, account_email);
+  const nav = await utilities.getNav();
+
+  if (result) {
+    // Get updated account info
+    const updatedAccount = await accountModel.getAccountById(account_id);
+    if (!updatedAccount) {
+      req.flash("error", "Could not retrieve updated account info.");
+      return res.redirect("/account/update/" + account_id);
+    }
+
+    // Remove sensitive info before signing token
+    delete updatedAccount.account_password;
+
+    // Generate new JWT token with updated info
+    const newToken = jwt.sign(updatedAccount, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 });
+
+    // Set the new token cookie, just like in login
+    if (process.env.NODE_ENV === "development") {
+      res.cookie("jwt", newToken, { httpOnly: true, maxAge: 3600 * 1000 });
+    } else {
+      res.cookie("jwt", newToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 });
+    }
+
+    req.flash("success", "Account updated.");
+    res.redirect("/account");
+  } else {
+    req.flash("error", "Update failed.");
+    res.redirect("/account/update/" + account_id);
+  }
+}
+
+async function updateAccountPassword(req, res) {
+  const { account_id, account_password } = req.body;
+  const hashedPassword = await bcrypt.hash(account_password, 10);
+  const result = await accountModel.updateAccountPassword(account_id, hashedPassword);
+  const nav = await utilities.getNav();
+
+  if (result) {
+    req.flash("success", "Password updated.");
+    res.redirect("/account");
+  } else {
+    req.flash("error", "Password update failed.");
+    res.redirect("/account/update/" + account_id);
+  }
+}
+
+
+
+module.exports = { 
+  buildLogin, 
+  buildRegister, 
+  registerAccount, 
+  accountLogin, 
+  buildAccountManagement,
+  buildUpdateAccount,
+  updateAccountInfo,
+  updateAccountPassword,
+};

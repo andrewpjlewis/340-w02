@@ -1,0 +1,52 @@
+<h1>Edit Account</h1>
+<% if (errors && errors.length > 0) { %>
+  <ul class="notice">
+    <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<div class="form-container">
+  <form id="updateForm" method="POST" action="/account/update">
+    <fieldset>
+      <label for="account_firstname">First Name</label>
+      <input type="text" id="account_firstname" name="account_firstname" required value="<%= accountData.account_firstname %>">
+
+      <label for="account_lastname">Last Name</label>
+      <input type="text" id="account_lastname" name="account_lastname" required value="<%= accountData.account_lastname %>">
+
+      <label for="account_email">Email</label>
+      <input type="email" id="account_email" name="account_email" required value="<%= accountData.account_email %>">
+
+      <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+
+      <button type="submit" disabled>Update Account</button>
+    </fieldset>
+  </form>
+</div>
+
+<hr>
+
+<h2>Edit Password</h2>
+<div class="form-container">
+  <form method="POST" action="/account/update-password">
+    <fieldset>
+      <label for="account_password">New Password</label>
+      <input type="password" id="account_password" name="account_password" required>
+      <p>Password must be at least 12 characters and include uppercase, number, and symbol.</p>
+      <p>*note your original password will be changed.</p>
+      <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+
+      <button type="submit">Change Password</button>
+    </fieldset>
+  </form>
+</div>
+<script>
+  const form = document.querySelector("#updateForm");
+  const updateBtn = form.querySelector("button[type='submit']");
+
+  form.addEventListener("change", function () {
+    updateBtn.removeAttribute("disabled");
+  });
+</script>

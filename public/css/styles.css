@@ -186,6 +186,12 @@ img {
   color: red;
   font-style: italic;
   font-weight: bold;
+  list-style: none;
+}
+
+.update li {
+  color: green;
+  list-style: none;
 }
 
 /* Login Styles */

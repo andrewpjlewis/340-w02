@@ -92,4 +92,58 @@ validate.checkLoginData = async (req, res, next) => {
   next();
 };
 
+
+validate.accountUpdateRules = () => [
+  body("account_firstname").notEmpty().withMessage("First name required."),
+  body("account_lastname").notEmpty().withMessage("Last name required."),
+  body("account_email")
+    .isEmail().withMessage("Valid email required.")
+    .custom(async (email, { req }) => {
+      const existing = await accountModel.getAccountByEmail(email);
+      if (existing && existing.account_id != req.body.account_id) {
+        throw new Error("Email already in use.");
+      }
+    })
+];
+
+validate.checkAccountUpdate = async (req, res, next) => {
+  const errors = validationResult(req);
+  const accountData = req.body;
+  let nav = await utilities.getNav();
+
+  if (!errors.isEmpty()) {
+    return res.render("account/update", {
+      title: "Update Account",
+      nav,
+      errors: errors.array(),
+      accountData
+    });
+  }
+  next();
+};
+
+validate.passwordUpdateRules = () => [
+  body("account_password").isStrongPassword({
+    minLength: 12,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+    minSymbols: 1
+  }).withMessage("Password does not meet requirements.")
+];
+
+validate.checkPasswordUpdate = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav();
+    return res.render("account/update", {
+      title: "Update Account",
+      nav,
+      errors: errors.array(),
+      accountData: req.body
+    });
+  }
+  next();
+};
+
 module.exports = validate;

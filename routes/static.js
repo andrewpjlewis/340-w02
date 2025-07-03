@@ -11,6 +11,3 @@ router.use("/images", express.static(__dirname + "public/images"));
 router.use("/trigger-error", baseController.throwError);
 
 module.exports = router;
-
-
-
