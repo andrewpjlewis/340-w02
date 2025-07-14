@@ -1,0 +1,18 @@
+<h1>Archived Messages</h1>
+
+<ul>
+  <% if (messages.length === 0) { %>
+    <li>No archived messages.</li>
+  <% } else { %>
+    <% messages.forEach(msg => { %>
+      <li>
+        <a href="/messages/view/<%= msg.message_id %>">
+          <%= msg.message_subject %>
+        </a>
+        from <%= msg.account_firstname %> <%= msg.account_lastname %>
+        on <%= new Date(msg.message_created).toLocaleString() %>
+        <% if (!msg.message_read) { %><strong> (Unread)</strong><% } %>
+      </li>
+    <% }) %>
+  <% } %>
+</ul>

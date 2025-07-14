@@ -50,10 +50,13 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 app.use("/inv", require("./routes/inventoryRoute"))
 // Account Routes
 app.use("/account", require("./routes/accountRoute"))
+// Messaging Routes
+app.use("/messages", require("./routes/messageRoutes"));
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: "😅 Whoops! Something went wrong... but at least you're not stuck in 1985."})
 })
+
 
 /* ***********************
  * Local Server Information

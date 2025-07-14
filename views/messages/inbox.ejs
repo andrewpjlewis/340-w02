@@ -1,0 +1,37 @@
+<h1>Inbox</h1>
+
+<p>You have <strong><%= unreadCount %></strong> unread message(s).</p>
+
+<p><a href="/messages/compose" class="btn">New Message</a></p>
+<p>
+  <a href="/messages/archive" class="btn">
+    View <%= archivedCount %> archived message<%= archivedCount !== 1 ? 's' : '' %>
+  </a>
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Received</th>
+      <th>Subject</th>
+      <th>From</th>
+      <th>Read</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (messages.length === 0) { %>
+      <tr>
+        <td colspan="4">No messages in your inbox.</td>
+      </tr>
+    <% } else { %>
+      <% messages.forEach(msg => { %>
+        <tr>
+          <td><%= new Date(msg.message_created).toLocaleString() %></td>
+          <td><a href="/messages/view/<%= msg.message_id %>"><%= msg.message_subject %></a></td>
+          <td><%= msg.account_firstname %> <%= msg.account_lastname %></td>
+          <td><%= msg.message_read ? "Yes" : "No" %></td>
+        </tr>
+      <% }) %>
+    <% } %>
+  </tbody>
+</table>

@@ -275,6 +275,42 @@ ul.notice li {
   list-style-type: none;
 }
 
+/* Inbox Table Styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+/* Buttons for navigation links */
+nav a.btn {
+  padding: 0.4rem 0.8rem;
+  background-color: #007acc;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  display: inline-block;
+}
+
+nav a.btn:hover {
+  background-color: #005f99;
+}
+
+
 /* Larger Screens */
 @media screen and (min-width: 875px) {
   body {

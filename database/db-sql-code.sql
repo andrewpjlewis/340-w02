@@ -249,3 +249,15 @@ WHERE inv_model = 'Hummer'
 UPDATE inventory
 SET inv_image = REPLACE(inv_image, '/images', '/images/vehicles'), 
 	inv_thumbnail = REPLACE(inv_thumbnail, '/images', '/images/vehicles') 
+
+
+CREATE TABLE message (
+  message_id SERIAL PRIMARY KEY,
+  message_subject VARCHAR NOT NULL,
+  message_body TEXT NOT NULL,
+  message_created TIMESTAMPTZ DEFAULT NOW(),
+  message_to INTEGER NOT NULL,
+  message_from INTEGER NOT NULL,
+  message_read BOOLEAN DEFAULT FALSE NOT NULL,
+  message_archived BOOLEAN DEFAULT FALSE NOT NULL
+);

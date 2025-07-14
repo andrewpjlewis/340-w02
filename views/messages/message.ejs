@@ -1,0 +1,40 @@
+<h1><%= message.message_subject %></h1>
+
+<p><a href="/messages/inbox">← Return to Inbox</a></p>
+
+<p><strong>From:</strong> <%= message.sender_firstname %> <%= message.sender_lastname %></p>
+<p><strong>Sent:</strong> <%= new Date(message.message_created).toLocaleString() %></p>
+
+<p><%= message.message_body %></p>
+
+<!-- Reply Button -->
+<form action="/messages/compose" method="get" style="display:inline;">
+  <input type="hidden" name="recipient" value="<%= message.message_from %>">
+  <button type="submit">Reply</button>
+</form>
+
+<!-- Mark Read/Unread toggle -->
+<form action="/messages/toggle-read" method="post" style="display:inline;">
+  <input type="hidden" name="message_id" value="<%= message.message_id %>">
+  <% if (message.message_read) { %>
+    <button type="submit">Mark as Unread</button>
+  <% } else { %>
+    <button type="submit">Mark as Read</button>
+  <% } %>
+</form>
+
+<!-- Archive/Unarchive toggle -->
+<form action="/messages/archive" method="post" style="display:inline;">
+  <input type="hidden" name="message_id" value="<%= message.message_id %>">
+  <% if (message.message_archived) { %>
+    <button type="submit" name="action" value="unarchive">Unarchive</button>
+  <% } else { %>
+    <button type="submit" name="action" value="archive">Archive</button>
+  <% } %>
+</form>
+
+<!-- Delete Button -->
+<form action="/messages/delete" method="post" style="display:inline;">
+  <input type="hidden" name="message_id" value="<%= message.message_id %>">
+  <button type="submit">Delete</button>
+</form>

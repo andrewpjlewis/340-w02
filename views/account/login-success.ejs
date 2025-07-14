@@ -1,4 +1,5 @@
 <h2>Welcome <%= accountData.account_firstname %></h2>
+
 <% if (messages.success) { %>
   <ul class="update success">
     <% messages.success.forEach(msg => { %>
@@ -6,8 +7,14 @@
     <% }) %>
   </ul>
 <% } %>
+
 <p>You're logged in.</p>
 <a href="/account/update/<%= accountData.account_id %>">Edit Account Information</a>
+
+<!-- ✅ Message Center Section -->
+<h3>Message Center</h3>
+<p>You have <strong><%= unreadCount %></strong> unread message(s).</p>
+<p><a href="/messages/inbox">Go to Inbox</a></p>
 
 <% if (accountData.account_type === "Employee" || accountData.account_type === "Admin") { %>
   <h3>Inventory Management</h3>

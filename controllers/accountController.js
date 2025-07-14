@@ -1,6 +1,7 @@
 const utilities = require("../utilities");
 const bcrypt = require("bcryptjs");
 const accountModel = require("../models/account-model");
+const messageModel = require("../models/messageModel"); // <-- Add this
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -26,7 +27,6 @@ async function registerAccount(req, res) {
   let nav = await utilities.getNav();
   const { account_firstname, account_lastname, account_email, account_password } = req.body;
 
-  // Hash the password before storing
   let hashedPassword;
   try {
     hashedPassword = await bcrypt.hash(account_password, 10);
@@ -66,56 +66,71 @@ async function registerAccount(req, res) {
   }
 }
 
-/* ****************************************
- *  Process login request
- * ************************************ */
 async function accountLogin(req, res) {
-  let nav = await utilities.getNav()
-  const { account_email, account_password } = req.body
-  const accountData = await accountModel.getAccountByEmail(account_email)
+  let nav = await utilities.getNav();
+  const { account_email, account_password } = req.body;
+  const accountData = await accountModel.getAccountByEmail(account_email);
+
   if (!accountData) {
-    req.flash("notice", "Please check your credentials and try again.")
-    res.status(400).render("account/login", {
+    req.flash("notice", "Please check your credentials and try again.");
+    return res.status(400).render("account/login", {
       title: "Login",
       nav,
       errors: null,
       account_email,
-    })
-    return
+    });
   }
+
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
-      delete accountData.account_password
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
-      if(process.env.NODE_ENV === 'development') {
-        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+      delete accountData.account_password;
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: 3600 * 1000,
+      });
+
+      if (process.env.NODE_ENV === "development") {
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
       } else {
-        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+        res.cookie("jwt", accessToken, {
+          httpOnly: true,
+          secure: true,
+          maxAge: 3600 * 1000,
+        });
       }
-      return res.redirect("/account/")
-    }
-    else {
-      req.flash("message notice", "Please check your credentials and try again.")
-      res.status(400).render("account/login", {
+
+      return res.redirect("/account/");
+    } else {
+      req.flash("notice", "Please check your credentials and try again.");
+      return res.status(400).render("account/login", {
         title: "Login",
         nav,
         errors: null,
         account_email,
-      })
+      });
     }
   } catch (error) {
-    throw new Error('Access Forbidden')
+    throw new Error("Access Forbidden");
   }
 }
+
 async function buildAccountManagement(req, res) {
   let nav = await utilities.getNav();
   const accountData = res.locals.accountData;
+
+  let unreadCount = 0;
+  try {
+    unreadCount = await messageModel.getUnreadCount(accountData.account_id);
+  } catch (e) {
+    console.error("Error fetching unread count:", e);
+  }
+
   res.render("account/login-success", {
     title: "Account Management",
     nav,
     accountData,
+    unreadCount,
     errors: null,
-    messages: req.flash()
+    messages: req.flash(),
   });
 }
 
@@ -134,24 +149,27 @@ async function buildUpdateAccount(req, res) {
 
 async function updateAccountInfo(req, res) {
   const { account_id, account_firstname, account_lastname, account_email } = req.body;
-  const result = await accountModel.updateAccountInfo(account_id, account_firstname, account_lastname, account_email);
+  const result = await accountModel.updateAccountInfo(
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email
+  );
   const nav = await utilities.getNav();
 
   if (result) {
-    // Get updated account info
     const updatedAccount = await accountModel.getAccountById(account_id);
     if (!updatedAccount) {
       req.flash("error", "Could not retrieve updated account info.");
       return res.redirect("/account/update/" + account_id);
     }
 
-    // Remove sensitive info before signing token
     delete updatedAccount.account_password;
 
-    // Generate new JWT token with updated info
-    const newToken = jwt.sign(updatedAccount, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 });
+    const newToken = jwt.sign(updatedAccount, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: 3600 * 1000,
+    });
 
-    // Set the new token cookie, just like in login
     if (process.env.NODE_ENV === "development") {
       res.cookie("jwt", newToken, { httpOnly: true, maxAge: 3600 * 1000 });
     } else {
@@ -181,13 +199,11 @@ async function updateAccountPassword(req, res) {
   }
 }
 
-
-
-module.exports = { 
-  buildLogin, 
-  buildRegister, 
-  registerAccount, 
-  accountLogin, 
+module.exports = {
+  buildLogin,
+  buildRegister,
+  registerAccount,
+  accountLogin,
   buildAccountManagement,
   buildUpdateAccount,
   updateAccountInfo,

@@ -56,4 +56,10 @@ async function updateAccountPassword(account_id, hashedPassword) {
   return result.rowCount;
 }
 
-module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateAccountInfo, updateAccountPassword };
+async function getAllAccountsExcept(exclude_id) {
+  const sql = `SELECT account_id, account_firstname, account_lastname FROM account WHERE account_id != $1`;
+  const result = await pool.query(sql, [exclude_id]);
+  return result.rows;
+}
+
+module.exports = { registerAccount, checkExistingEmail, getAccountByEmail, getAccountById, updateAccountInfo, updateAccountPassword, getAllAccountsExcept };

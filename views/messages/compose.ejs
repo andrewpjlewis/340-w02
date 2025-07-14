@@ -1,0 +1,23 @@
+<h1><%= title %></h1>
+<div class="form-container">
+  <form action="/messages/send" method="post">
+    <fieldset>
+      <label for="recipient">To:</label>
+      <select name="recipient" required>
+        <% accounts.forEach(account => { %>
+          <option value="<%= account.account_id %>">
+            <%= account.account_firstname %> <%= account.account_lastname %>
+          </option>
+        <% }) %>
+      </select>
+
+      <label for="subject">Subject:</label>
+      <input type="text" name="subject" required>
+    
+      <label for="body">Message:</label>
+      <textarea name="body" required></textarea>
+    
+      <button type="submit">Send Message</button>
+    </fieldset>
+  </form>
+</div>
